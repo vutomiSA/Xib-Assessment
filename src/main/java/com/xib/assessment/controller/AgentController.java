@@ -205,15 +205,17 @@ public class AgentController {
     public ResponseEntity<List<Team>> allEmptyTeams(){
         
         List<Team> teams = teamRepository.findAll();    //retrieve all teams from db
+        List<Team> emptyTeams = new ArrayList<>();
         ResponseEntity<List<Team>> res = null;
         
         for(int i = 0; i < teams.size(); i++){
-            List<Agent> emptyTeams = teams.get(i).getAgents();
-            if(emptyTeams.isEmpty()){
-                res = new ResponseEntity<>(teams, HttpStatus.OK);
-            }else{
-                res = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-            }
+            List<Agent> agents = teams.get(i).getAgents();
+            
+            if(agents.size() <= 0)
+                emptyTeams.add(teams.get(i));
+                
+            
+            res = new ResponseEntity<>(emptyTeams, HttpStatus.OK);
         }
         return res;
     }

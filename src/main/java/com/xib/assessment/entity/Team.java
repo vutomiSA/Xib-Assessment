@@ -5,13 +5,15 @@
  */
 package com.xib.assessment.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -19,6 +21,7 @@ import javax.persistence.OneToMany;
  *
  * @author Vee
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 public class Team implements Serializable{
     
@@ -26,12 +29,11 @@ public class Team implements Serializable{
     @GeneratedValue
     private Long id;
     private String name;
-    @JsonIgnore
-    @OneToMany
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Agent> agents;
-    @JsonIgnore
-    @ManyToOne(optional = false)
-    @JsonBackReference
+    @JoinColumn(name = "manager", referencedColumnName = "id")
+    @ManyToOne
     private Manager manager;
 
     public Long getId() {

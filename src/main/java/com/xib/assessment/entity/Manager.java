@@ -5,18 +5,17 @@
  */
 package com.xib.assessment.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 /**
  *
  * @author Vee
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 public class Manager implements Serializable{
     
@@ -26,9 +25,6 @@ public class Manager implements Serializable{
     private String firstName;
     private String lastName;
     private String idNumber;
-    @JsonIgnore
-    @OneToMany
-    private List<Team> teams;
 
     public Long getId() {
         return id;
@@ -61,14 +57,4 @@ public class Manager implements Serializable{
     public void setIdNumber(String idNumber) {
         this.idNumber = idNumber;
     }
-
-    public List<Team> getTeams() {
-        return teams;
-    }
-
-    public void setTeams(List<Team> teams) {
-        this.teams = teams;
-    }
-    
-    
 }
